@@ -4,5 +4,6 @@
     <string name="app_name">Hassle</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="app_id">xxxx</string>
 
 </resources>
