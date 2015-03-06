@@ -11,6 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+
+import com.facebook.widget.LoginButton;
+
+import java.util.Arrays;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -61,6 +66,16 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+            LoginButton authButton = (LoginButton) rootView.findViewById(R.id.authButton);
+            authButton.setReadPermissions(Arrays.asList("public_profile"));
+
+            authButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             return rootView;
         }
