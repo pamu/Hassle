@@ -1,18 +1,23 @@
 package com.iit_mandi.android.hassle;
 
+
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
+import android.widget.TextView;
 
+import com.facebook.AppEventsLogger;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
@@ -59,25 +64,88 @@ public class MainActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        public static final String TAG = PlaceholderFragment.class.getName();
+
+        private LoginButton loginButton;
+        private UiLifecycleHelper uiLifecycleHelper;
+        private TextView username;
+
         public PlaceholderFragment() {
         }
+
+        private Session.StatusCallback statusCallback = new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+                if(state.isOpened()) {
+                    Log.d(TAG, "facebook session is open");
+                } else if(state.isClosed()) {
+                    Log.d(TAG, "facebook session is closed");
+                }
+            }
+        };
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            LoginButton authButton = (LoginButton) rootView.findViewById(R.id.authButton);
-            authButton.setReadPermissions(Arrays.asList("public_profile"));
+            uiLifecycleHelper = new UiLifecycleHelper(getActivity(), statusCallback);
+            uiLifecycleHelper.onCreate(savedInstanceState);
 
-            authButton.setOnClickListener(new View.OnClickListener() {
+            loginButton = (LoginButton) rootView.findViewById(R.id.authButton);
+            loginButton.setFragment(this);
+            loginButton.setReadPermissions(Arrays.asList("email"));
+
+            loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
                 @Override
-                public void onClick(View v) {
-
+                public void onUserInfoFetched(GraphUser user) {
+                    if(user != null) {
+                        Log.d(TAG, "first name: "+user.getFirstName());
+                    } else {
+                        Log.d(TAG, "user not logged in");
+                    }
                 }
             });
-
             return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            uiLifecycleHelper.onResume();
+            AppEventsLogger.activateApp(getActivity());
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            uiLifecycleHelper.onPause();
+            AppEventsLogger.deactivateApp(getActivity());
+        }
+
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            uiLifecycleHelper.onStop();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            uiLifecycleHelper.onDestroy();
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            uiLifecycleHelper.onActivityResult(requestCode, resultCode, data);
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            uiLifecycleHelper.onSaveInstanceState(outState);
         }
     }
 }
