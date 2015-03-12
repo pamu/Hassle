@@ -100,12 +100,16 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onUserInfoFetched(GraphUser user) {
                     if(user != null) {
-                        Log.d(TAG, "first name: "+user.getFirstName());
+                        Log.d(TAG, "first name: " + user.getFirstName());
+                        Log.d(TAG, "last name: " + user.getLastName());
+                        Log.d(TAG, "email: " + user.getProperty("email"));
+                        startActivity(new Intent(getActivity(), HassleActivity.class));
                     } else {
                         Log.d(TAG, "user not logged in");
                     }
                 }
             });
+
             return rootView;
         }
 
