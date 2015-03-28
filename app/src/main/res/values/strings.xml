@@ -7,4 +7,7 @@
     <string name="app_id">780004402083505</string>
     <string name="title_activity_hassle">HassleActivity</string>
 
+    <!-- -->
+    <string name="hassle_activity_headline">Today\'s Menu</string>
+
 </resources>

@@ -34,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
     }
 
 
@@ -116,6 +117,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onResume() {
             super.onResume();
+            startActivity(new Intent(getActivity(), HassleActivity.class));
             uiLifecycleHelper.onResume();
             AppEventsLogger.activateApp(getActivity());
         }

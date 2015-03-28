@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hassle_red">#ff0000</color>
+    <color name="hassle_pink">#ff69b4</color>
+    <color name="hassle_blue">#5577ff</color>
+    <color name="hassle_white">#ffffff</color>
+    <color name="hassle_green">#00ff00</color>
+</resources>
