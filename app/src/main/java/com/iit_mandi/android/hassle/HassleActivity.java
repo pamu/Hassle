@@ -2,10 +2,10 @@ package com.iit_mandi.android.hassle;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.GridView;
-import android.widget.ListAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -29,9 +28,16 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 
 public class HassleActivity extends ActionBarActivity {
@@ -76,7 +82,7 @@ public class HassleActivity extends ActionBarActivity {
     public static class PlaceholderFragment extends Fragment {
         final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
 
-        private ListAdapter dayInfoAdapter;
+        private ArrayAdapter<List<String>> dayInfoArrayAdapter;
 
         public PlaceholderFragment() {
         }
@@ -86,14 +92,68 @@ public class HassleActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_hassle, container, false);
             TextView heading = (TextView) rootView.findViewById(R.id.heading);
-            GridView dayInfoGrid = (GridView) rootView.findViewById(R.id.grid_day_info);
+            ListView dayInfoListView = (ListView) rootView.findViewById(R.id.day_info_list);
+            //dayInfoListView.addHeaderView(heading);
+            heading.setText(new SimpleDateFormat("EEE, dd MM").format(new Date()) + " Menu.");
+
+            String[] row = {"no data", "no data", "no data", "no data"};
+
+
+            dayInfoArrayAdapter = new CustomAdapter(getActivity(), new List[] {Arrays.asList(row)});
+
+            dayInfoListView.setAdapter(dayInfoArrayAdapter);
 
             new DayInfoLoader(getActivity()).execute(new Integer[]{0});
 
             return rootView;
         }
 
-        public class DayInfoLoader extends AsyncTask<Integer, Void, String> {
+        public class CustomAdapter extends ArrayAdapter<List<String>> {
+
+            Context context;
+            List<String>[] lists;
+
+            public CustomAdapter(Context context, List<String>[] lists) {
+                super(context, R.layout.day_schedule, lists);
+                this.context = context;
+                this.lists = lists;
+            }
+
+            public class Holder {
+                TextView name;
+                TextView interval;
+                TextView special;
+                TextView desc;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View rowView = convertView;
+
+                if (rowView == null) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                    rowView = inflater.inflate(R.layout.day_schedule, null);
+                    Holder holder = new Holder();
+
+                    holder.name = (TextView) rowView.findViewById(R.id.name_tv);
+                    holder.interval = (TextView) rowView.findViewById(R.id.interval);
+                    holder.special = (TextView) rowView.findViewById(R.id.special);
+                    holder.desc = (TextView) rowView.findViewById(R.id.desc);
+
+                    rowView.setTag(holder);
+                }
+
+                Holder holder = (Holder) rowView.getTag();
+                holder.name.setText(lists[position].get(0));
+                holder.interval.setText(lists[position].get(1));
+                holder.special.setText(lists[position].get(2));
+                holder.desc.setText(lists[position].get(3));
+
+                return rowView;
+            }
+        }
+
+        public class DayInfoLoader extends AsyncTask<Integer, Void, String[][]> {
             final String URL = "http://bighassle.herokuapp.com/day";
             private Activity activity;
             private ProgressDialog dialog;
@@ -113,7 +173,7 @@ public class HassleActivity extends ActionBarActivity {
             }
 
             @Override
-            protected String doInBackground(Integer... params) {
+            protected String[][] doInBackground(Integer... params) {
                 Uri dayInfoUri = Uri.parse(URL).buildUpon().
                         appendQueryParameter("day", params[0].toString()).build();
                 String jsonStr = null;
@@ -152,16 +212,59 @@ public class HassleActivity extends ActionBarActivity {
                     Log.d(LOG_TAG, ex.getMessage());
                 }
                 if (jsonStr == null) return null;
-                return jsonStr;
+
+                String[][] result = new String[4][4];
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    JSONArray slots = jsonObject.getJSONArray("slots");
+
+                    for(int slotNo = 0; slotNo < slots.length(); slotNo ++) {
+                        JSONObject slot = (JSONObject) slots.get(slotNo);
+                        String name = slot.getString("name");
+                        String startTime = slot.getString("startTime");
+                        int span = slot.getInt("span");
+                        JSONObject foodInfo = slot.getJSONObject("foodInfo");
+                        String description = foodInfo.getString("description");
+                        String specialName = "";
+
+                        if (foodInfo.has("special")) {
+                            specialName = foodInfo.getString("special");
+                        }
+
+                        result[slotNo][0] = name;
+                        result[slotNo][1] = processTime(startTime, span);
+                        result[slotNo][2] = specialName ;
+                        result[slotNo][3] = description;
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                return result;
+            }
+
+            public String processTime(String startTime, int span) {
+                String[] strs = startTime.split(":");
+                String hours = strs[0];
+                String minutes = strs[1];
+
+                return startTime + " to " +  Integer.valueOf(Integer.valueOf(hours) + span) + ":" + minutes;
             }
 
             @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+            protected void onPostExecute(String results[][]) {
+                super.onPostExecute(results);
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
-                if (s != null)
-                    Log.d(LOG_TAG, s);
-                else Log.d(LOG_TAG, "string is null");
+                if (results != null) {
+                    for(String[] result : results) {
+                        for(String str : result) Log.d(LOG_TAG, str);
+                        dayInfoArrayAdapter.clear();
+                        dayInfoArrayAdapter.add(Arrays.asList(result));
+                    }
+                } else {
+                    Log.d(LOG_TAG, "result is not available");
+                }
             }
         }
     }

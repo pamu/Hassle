@@ -22,12 +22,9 @@
             android:id="@+id/heading" />
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/grid_day_info"
+    <ListView
+        android:id="@+id/day_info_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </GridView>
-
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
