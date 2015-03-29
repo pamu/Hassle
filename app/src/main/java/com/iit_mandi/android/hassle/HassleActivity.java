@@ -144,6 +144,12 @@ public class HassleActivity extends ActionBarActivity {
                     holder.special = (TextView) rowView.findViewById(R.id.special);
                     holder.desc = (TextView) rowView.findViewById(R.id.desc);
 
+                    int size = 10;
+                    holder.name.setTextSize(size * getResources().getDisplayMetrics().density);
+                    holder.interval.setTextSize(size * getResources().getDisplayMetrics().density);
+                    holder.special.setTextSize(size * getResources().getDisplayMetrics().density);
+                    holder.desc.setTextSize(size * getResources().getDisplayMetrics().density);
+
                     rowView.setTag(holder);
                 }
 
@@ -238,7 +244,7 @@ public class HassleActivity extends ActionBarActivity {
                         result[slotNo][0] = name;
                         result[slotNo][1] = processTime(startTime, span);
                         result[slotNo][2] = specialName ;
-                        result[slotNo][3] = description.length() < 10 ? description : description.substring(10);
+                        result[slotNo][3] = description.length() < 10 ? description : description.substring(0, 10) + " ...";
 
                     }
                 } catch (JSONException e) {

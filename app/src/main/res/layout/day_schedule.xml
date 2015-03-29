@@ -5,37 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_weight="0.25"
-        android:id="@+id/name_tv"
-        android:padding="10sp"
-        android:text="Text"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/name_tv"
 
-    <TextView
+            android:text="Text"
+            android:textColor="@color/hassle_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_weight="0.25"
-        android:id="@+id/interval"
-        android:padding="10sp"
-        android:text="Text"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/interval"
 
-    <TextView
+            android:text="Text"
+            android:textColor="@color/hassle_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_weight="0.25"
-        android:id="@+id/special"
-        android:padding="10sp"
-        android:text="Text"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/special"
 
-    <TextView
+            android:text="Text"
+            android:textColor="@color/hassle_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_weight="0.25"
-        android:id="@+id/desc"
-        android:padding="10sp"
-        android:text="Text"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/desc"
 
+            android:text="Text"
+            android:textColor="@color/hassle_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>
