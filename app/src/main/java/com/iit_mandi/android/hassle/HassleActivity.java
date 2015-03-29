@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -99,7 +100,10 @@ public class HassleActivity extends ActionBarActivity {
             String[] row = {"no data", "no data", "no data", "no data"};
 
 
-            dayInfoArrayAdapter = new CustomAdapter(getActivity(), new List[] {Arrays.asList(row)});
+            List<List<String>> lists = new ArrayList<List<String>>();
+            lists.add(Arrays.asList(row));
+
+            dayInfoArrayAdapter = new CustomAdapter(getActivity(), lists);
 
             dayInfoListView.setAdapter(dayInfoArrayAdapter);
 
@@ -111,9 +115,9 @@ public class HassleActivity extends ActionBarActivity {
         public class CustomAdapter extends ArrayAdapter<List<String>> {
 
             Context context;
-            List<String>[] lists;
+            List<List<String>> lists;
 
-            public CustomAdapter(Context context, List<String>[] lists) {
+            public CustomAdapter(Context context, List<List<String>> lists) {
                 super(context, R.layout.day_schedule, lists);
                 this.context = context;
                 this.lists = lists;
@@ -144,10 +148,10 @@ public class HassleActivity extends ActionBarActivity {
                 }
 
                 Holder holder = (Holder) rowView.getTag();
-                holder.name.setText(lists[position].get(0));
-                holder.interval.setText(lists[position].get(1));
-                holder.special.setText(lists[position].get(2));
-                holder.desc.setText(lists[position].get(3));
+                holder.name.setText(lists.get(position).get(0));
+                holder.interval.setText(lists.get(position).get(1));
+                holder.special.setText(lists.get(position).get(2));
+                holder.desc.setText(lists.get(position).get(3));
 
                 return rowView;
             }
@@ -234,7 +238,7 @@ public class HassleActivity extends ActionBarActivity {
                         result[slotNo][0] = name;
                         result[slotNo][1] = processTime(startTime, span);
                         result[slotNo][2] = specialName ;
-                        result[slotNo][3] = description;
+                        result[slotNo][3] = description.length() < 10 ? description : description.substring(10);
 
                     }
                 } catch (JSONException e) {
@@ -257,9 +261,9 @@ public class HassleActivity extends ActionBarActivity {
                 super.onPostExecute(results);
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 if (results != null) {
+                    dayInfoArrayAdapter.clear();
                     for(String[] result : results) {
                         for(String str : result) Log.d(LOG_TAG, str);
-                        dayInfoArrayAdapter.clear();
                         dayInfoArrayAdapter.add(Arrays.asList(result));
                     }
                 } else {
