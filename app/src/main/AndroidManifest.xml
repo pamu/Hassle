@@ -33,8 +33,11 @@
 
         <activity android:name=".SettingsActivity"
             android:label="@string/action_settings">
-
         </activity>
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".data.MenuProvider">
+        </provider>
     </application>
 
 </manifest>

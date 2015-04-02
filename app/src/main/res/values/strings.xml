@@ -16,4 +16,6 @@
     <string name="title_notification_time">Notify Before</string>
     <string name="notifications_key">notifications</string>
     <string name="title_notification">Notifications</string>
+
+    <string name="content_authority">com.iit_mandi.android.hassle</string>
 </resources>
