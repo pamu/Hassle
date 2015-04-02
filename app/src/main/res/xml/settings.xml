@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+   <EditTextPreference
+       android:key="@string/notification_time_key"
+       android:defaultValue="@string/five_seconds"
+       android:title="@string/title_notification_time"
+       android:dialogTitle="@string/title_notification_time"/>
+    <CheckBoxPreference
+        android:key="@string/notifications_key"
+        android:defaultValue="on"
+        android:editable="true"
+        android:title="@string/title_notification"
+        android:dialogTitle="@string/title_notification"/>
+</PreferenceScreen>

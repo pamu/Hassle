@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hassle</string>
+    <string name="app_name">Hassle Free</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="app_id">780004402083505</string>
-    <string name="title_activity_hassle">HassleActivity</string>
+    <string name="title_activity_hassle">Menu</string>
 
     <!-- -->
     <string name="hassle_activity_headline">Today\'s Menu</string>
 
+    <!-- Settings -->
+    <string name="notification_time_key">notification_time</string>
+    <string name="five_seconds">60</string>
+    <string name="title_notification_time">Notify Before</string>
+    <string name="notifications_key">notifications</string>
+    <string name="title_notification">Notifications</string>
 </resources>

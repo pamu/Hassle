@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/hassle_red"
+    android:background="@color/hassle_white"
     tools:context="com.iit_mandi.android.hassle.HassleActivity$PlaceholderFragment">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         <TextView
             android:text="@string/hassle_activity_headline"
             android:textSize="30sp"
-            android:textColor="@color/hassle_white"
+            android:textColor="@color/hassle_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

@@ -30,6 +30,11 @@
             android:name=".HassleActivity"
             android:label="@string/title_activity_hassle" >
         </activity>
+
+        <activity android:name=".SettingsActivity"
+            android:label="@string/action_settings">
+
+        </activity>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.iit_mandi.android.hassle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -11,12 +12,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.facebook.Settings;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,6 +59,7 @@ public class HassleActivity extends ActionBarActivity {
     }
 
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,6 +81,7 @@ public class HassleActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 
     /**
      * A placeholder fragment containing a simple view.
@@ -89,6 +95,30 @@ public class HassleActivity extends ActionBarActivity {
         }
 
         @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.menu_hassle, menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+
+            if (id == R.id.action_settings) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_hassle, container, false);
@@ -97,7 +127,7 @@ public class HassleActivity extends ActionBarActivity {
             //dayInfoListView.addHeaderView(heading);
             heading.setText(new SimpleDateFormat("EEE, dd MM").format(new Date()) + " Menu.");
 
-            String[] row = {"no data", "no data", "no data", "no data"};
+            String[] row = {"Time", "", "Specials", "Contents"};
 
 
             List<List<String>> lists = new ArrayList<List<String>>();
@@ -144,13 +174,13 @@ public class HassleActivity extends ActionBarActivity {
                     holder.special = (TextView) rowView.findViewById(R.id.special);
                     holder.desc = (TextView) rowView.findViewById(R.id.desc);
 
-                    /*
-                    int size = 10;
+
+                    int size = 9;
                     holder.name.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.interval.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.special.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.desc.setTextSize(size * getResources().getDisplayMetrics().density);
-                    */
+
 
                     rowView.setTag(holder);
                 }
