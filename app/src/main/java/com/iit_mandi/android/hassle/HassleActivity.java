@@ -144,11 +144,13 @@ public class HassleActivity extends ActionBarActivity {
                     holder.special = (TextView) rowView.findViewById(R.id.special);
                     holder.desc = (TextView) rowView.findViewById(R.id.desc);
 
+                    /*
                     int size = 10;
                     holder.name.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.interval.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.special.setTextSize(size * getResources().getDisplayMetrics().density);
                     holder.desc.setTextSize(size * getResources().getDisplayMetrics().density);
+                    */
 
                     rowView.setTag(holder);
                 }
