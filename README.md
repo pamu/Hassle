@@ -1,8 +1,7 @@
 # Hassle
 Making activities of IIT Mandi hassle free
 
-## Problem
-__________
+## Hassle Free
 
 Dynamic Mess food timetable updating system in the hostels of IIT. The user updates the timetable and the updates reach 
 the subscribers of the service seamlessly. The database source for the application is the project at 
