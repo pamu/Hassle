@@ -30,14 +30,24 @@
             android:name=".HassleActivity"
             android:label="@string/title_activity_hassle" >
         </activity>
-
-        <activity android:name=".SettingsActivity"
-            android:label="@string/action_settings">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/action_settings" >
         </activity>
+
         <provider
-            android:authorities="@string/content_authority"
-            android:name=".data.MenuProvider">
+            android:name=".data.MenuProvider"
+            android:authorities="@string/content_authority" >
         </provider>
+
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".HassleActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.iit_mandi.android.hassle.HassleActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -18,4 +18,7 @@
     <string name="title_notification">Notifications</string>
 
     <string name="content_authority">com.iit_mandi.android.hassle</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="todays_menu">Todays Menu</string>
+    <string name="action_share">Share</string>
 </resources>
